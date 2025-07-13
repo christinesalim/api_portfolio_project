@@ -40,3 +40,6 @@ def test_bulk_player_file_parquet():
     player_table = pq.read_table(BytesIO(player_file_parquet)) 
     player_df = player_table.to_pandas()
     assert len(player_df) == 1018
+
+
+
