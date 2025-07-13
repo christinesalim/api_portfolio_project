@@ -5,7 +5,7 @@ from datetime import date
 
 
 class Performance(BaseModel):
-    model_config = ConfigDict(from_attributes = True) #Allows ORM object to be used as a DTO and not just a dict
+    model_config = ConfigDict(from_attributes = True)
     performance_id : int
     player_id : int
     week_number : str
