@@ -242,3 +242,34 @@ def get_count(db: Session = Depends(get_db)):
         player_count=crud.get_player_count(db),
     )
     return counts
+
+
+@app.get(
+    "/v0/weeks/",
+    response_model=list[schemas.Week],
+    summary="Get all the SWC weeks that meet all the parameters you sent with your request",
+    description="""Use this endpoint to get a list of SWC weeks. You can use the parameters to filter down the weeks in the list. You use the skip and limit to perform pagination of the API.""",
+    response_description="A list of weeks in SWC fantasy football.",
+    operation_id="v0_get_weeks",
+    tags=["general"],
+)
+def read_weeks(
+    skip: int = Query(
+        0, description="The number of items to skip at the beginning of API call."
+    ),
+    limit: int = Query(
+        100, description="The number of records to return after the skipped records."
+    ),
+    minimum_last_changed_date: date = Query(
+        None,
+        description="The minimum data of change that you want to return records. Exclude any records changed before this.",
+    ),
+    db: Session = Depends(get_db),
+):
+    weeks = crud.get_weeks(
+        db,
+        skip=skip,
+        limit=limit,
+        min_last_changed_date=minimum_last_changed_date,
+    )
+    return weeks
